@@ -14,6 +14,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r}
 library(moderndive)
 library(ggplot2)
+library(tidyverse)
 ```
 
 ```{r}
@@ -52,4 +53,44 @@ Export the scatterplot
 ```{r}
 ggsave("scatter_temp_time.png",weather_plot,height = 4,width = 6)
 ```
+
+## Problem 2
+
+```{r}
+# guarantee reproducibility
+set.seed(1234)
+
+sample_norm <- rnorm(10)
+
+example_data <- tibble(
+  sample_norm = sample_norm,
+  is_positive = sample_norm > 0,
+  sample_char = sprintf("id_%02d", seq_len(10)),
+  sample_fac = factor(c("cat","dog","bird","cat","dog","bird","cat","dog","bird","cat"))
+)
+```
+
+Take the mean of each variable.
+
+```{r}
+mean_numeric <- mean(pull(example_data,sample_norm))
+mean_logical <- mean(pull(example_data,is_positive))
+mean_character <- mean(pull(example_data,sample_char))
+mean_factor <- mean(pull(example_data,sample_fac))
+```
+
+We are able to get mean of numeric and logical variables, and the results are `r mean_numeric` and `r mean_logical`, respectively. It doesn't work when the variable is character or factor.
+
+try converting one type to another
+
+```{r results='hide'}
+num_logical   <- as.numeric(example_data$is_positive)
+num_character <- as.numeric(example_data$sample_char)
+num_factor    <- as.numeric(example_data$sample_fac)
+```
+When variable is logical, `as.numeric()` gives 0 of FALSE and 1 for TRUE, which matches the logical mean above.
+When variable is character, `as.numeric()` gives `NA` for all elements. Thus, we are not able to obtain the mean.
+When variable is factor, `as.numeric()` returns the integer codes of each levels. However, the integers are just index of the group not having numerical meanings. Thus, we are not able to obtain the mean.
+
+
 
