@@ -26,9 +26,15 @@ n_obs <- nrow(early_january_weather)
 n_vars <- ncol(early_january_weather)
 ```
 
+```{r}
+summary(early_january_weather)
+```
+
 The `early_january_weather` dataset records hourly meteorological data for LGA, JFK and EWR for the month of January 2013. It consists of `r n_obs` observations and `r n_vars` variables including `r var_names`.
 
+Time variables `year`, `month`, `day` and `hour` indicate when each observation is recorded, among which `year` and `month` are constant at `r unique(early_january_weather$year)` and `r unique(early_january_weather$month)`. `day` ranges from `r min(early_january_weather$day)` to `r max(early_january_weather$day)` and `hour` ranges from `r min(early_january_weather$hour)` to `r max(early_january_weather$hour)`. `time_hour` consolidates these components as a POSIXct timestamp.
 
+Meteorological variables include: `temp`, `dewp` record temperature and dewpoint in F; `humid` records relative humidity; `wind_dir`, `wind_speed`, `wind_gust` record wind direction (in degrees), speed and gust speed (in mph); `precip` record precipitation in inches; `pressure` records sea level pressure in millibars; `visib` records visivility in miles.
 
 ```{r}
 mean_temp <- mean(early_january_weather$temp)
