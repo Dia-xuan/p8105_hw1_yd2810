@@ -1,0 +1,55 @@
+---
+title: "p8105_hw1_yd2810"
+author: "Yaxuan Deng"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Problem 1
+
+```{r}
+library(moderndive)
+library(ggplot2)
+```
+
+```{r}
+data("early_january_weather")
+
+var_names <- names(early_january_weather)
+
+n_obs <- nrow(early_january_weather)
+n_vars <- ncol(early_january_weather)
+```
+
+The `early_january_weather` dataset records hourly meteorological data for LGA, JFK and EWR for the month of January 2013. It consists of `r n_obs` observations and `r n_vars` variables including `r var_names`.
+
+
+
+```{r}
+mean_temp <- mean(early_january_weather$temp)
+```
+
+The mean temperature is `r mean_temp` °F.
+
+```{r}
+weather_plot <- 
+  ggplot(early_january_weather, aes(x = time_hour ,y = temp, color = humid)) +
+  geom_point() + 
+  labs(x = "Time",
+       y = "Temperature in F",
+       color = "humidity",
+       title = "Temperature over time")
+
+weather_plot
+```
+
+Export the scatterplot
+
+```{r}
+ggsave("scatter_temp_time.png",weather_plot,height = 4,width = 6)
+```
+
